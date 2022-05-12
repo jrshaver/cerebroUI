@@ -1,0 +1,50 @@
+<!-- <h4>Editing {{deck.name}}</h4> -->
+<mat-card>
+  <!-- <form>
+    <mat-form-field appearance="fill">
+      <mat-label>Deck Name</mat-label>
+      <input matInput [(ngModel)]="deck.name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Hero</mat-label>
+      <input matInput disabled [(ngModel)]="deck.hero.Name">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Aspect</mat-label>
+      <input matInput [(ngModel)]="deck.aspect">
+    </mat-form-field>
+  </form> -->
+
+  <!-- <app-card-image [card]="deck.hero"></app-card-image> -->
+
+</mat-card>
+
+<mat-form-field>
+  <mat-label>Search for cards</mat-label>
+  <input matInput type="text" name="cardSearch">
+</mat-form-field>
+
+<div cdkDropListGroup>
+  <div class="example-container">
+    <h2>Avaiable Cards <mat-icon svgIcon="resource-energy" matTooltip="Energy Resource"></mat-icon> <mat-icon svgIcon="resource-mental" matTooltip="Mental Resource"></mat-icon> <mat-icon svgIcon="resource-physical" matTooltip="Physical Resource"></mat-icon> <mat-icon svgIcon="resource-wild" matTooltip="Wild Resource"></mat-icon>
+    </h2>
+
+    <div cdkDropList [cdkDropListData]="availableCards" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let card of availableCards" cdkDrag (mouseenter)="mouseEnter(card)"
+        (mouseleave)="mouseLeave()">
+        {{card.Name}}
+        <app-card-image [card]="card"></app-card-image>
+        <span class="clear"></span>
+        <!-- <app-card-image *ngIf="hoverCard == card" [card]="card"></app-card-image> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h2>Decklist</h2>
+
+    <div cdkDropList [cdkDropListData]="cardSelection" class="example-list" (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let card of cardSelection" cdkDrag>{{card.Name}}</div>
+    </div>
+  </div>
+</div>

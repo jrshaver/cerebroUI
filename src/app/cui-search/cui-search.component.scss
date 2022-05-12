@@ -1,0 +1,25 @@
+#submitSearchBtn {
+  margin-bottom: 1rem;
+  padding-left: 8px;
+}
+
+.filterTR td {
+  float: left;
+}
+
+#filterContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  app-cui-filter:first-child {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  app-cui-filter,
+  #submitSearchBtn {
+    width: 100%;
+  }
+}

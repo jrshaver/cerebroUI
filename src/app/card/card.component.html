@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>{{card.Name}} <span *ngIf="card.Subname"> - {{card.Subname}}</span></h1>
+<app-card-image [card]="card"></app-card-image>
+
+<mat-dialog-actions align="center" *ngIf="enableRelatedCards">
+  <button [hidden]="cards.length <= 1" [disabled]="!enablePreviousButton" type="button" (click)="goToCard(-1)"
+    mat-mini-fab color="accent" matTooltip="Previous Card">
+    <mat-icon>arrow_left</mat-icon>
+  </button>
+  <button type="button" [mat-dialog-close]="card" mat-raised-button color="default">Find Related
+    Cards</button>
+  <button [hidden]="cards.length <= 1" [disabled]="!enableNextButton" type="button" (click)="goToCard(1)" mat-mini-fab
+    color="primary" matTooltip="Next Card">
+    <mat-icon>arrow_right</mat-icon>
+  </button>
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  <!--placer element for progress bar-->
+  <div *ngIf="!isLoading" style="display: block;
+  height: 4px;
+  overflow: hidden;
+  position: relative;
+  transition: opacity 250ms linear;
+  width: 100%;"></div>
+</mat-dialog-actions>
+
+<mat-dialog-actions align="center" *ngIf="!enableRelatedCards">
+  <button [hidden]="cards.length <= 1" [disabled]="!enablePreviousButton" type="button" (click)="goToCard(-1)"
+    mat-raised-button color="accent">Previous Card</button>
+  <button [hidden]="cards.length <= 1" [disabled]="!enableNextButton" type="button" (click)="goToCard(1)"
+    mat-raised-button color="primary">Next Card</button>
+</mat-dialog-actions>

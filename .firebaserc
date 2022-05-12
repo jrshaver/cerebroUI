@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cerebroui": {
+      "hosting": {
+        "cerebroui": [
+          "cerebroui"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cerebroui"
+  }
+}

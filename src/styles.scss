@@ -1,1 +1,48 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.error {
+  padding: 0 1rem;
+  color: #f44336;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-button-focus-overlay {
+  background-color: transparent!important;
+}
+
+mat-icon[svgIcon='resource-energy'] {
+  color: #ffd740;
+}
+
+
+mat-icon[svgIcon='resource-mental'] {
+  color: #3f51b5;
+}
+
+
+mat-icon[svgIcon='resource-physical'] {
+  color: #f44336;
+}
+
+
+mat-icon[svgIcon='resource-wild'] {
+  color: #46a35e;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

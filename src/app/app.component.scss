@@ -1,0 +1,32 @@
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  .flex-1 {
+    flex: 1;
+  }
+}
+
+.container {
+  padding: 3rem;
+  margin: auto;
+}
+
+mat-toolbar {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+span.clear {
+  clear: left;
+  display: block;
+}
+
+.footer {
+  font-size: 14px;
+  a {
+    margin: 0 1rem;
+  }
+}
