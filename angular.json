@@ -37,8 +37,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "serviceWorker": false
           },
           "configurations": {
             "production": {
@@ -61,8 +60,7 @@
                 }
               ],
               "outputHashing": "all",
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "serviceWorker": false
             },
             "development": {
               "buildOptimizer": false,

@@ -6,7 +6,7 @@
     mat-mini-fab color="accent" matTooltip="Previous Card">
     <mat-icon>arrow_left</mat-icon>
   </button>
-  <button type="button" [mat-dialog-close]="card" mat-raised-button color="default">Find Related
+  <button type="button" [mat-dialog-close]="card" mat-raised-button color="default" tabindex="-1" class="hide-xs">Find Related
     Cards</button>
   <button [hidden]="cards.length <= 1" [disabled]="!enableNextButton" type="button" (click)="goToCard(1)" mat-mini-fab
     color="primary" matTooltip="Next Card">

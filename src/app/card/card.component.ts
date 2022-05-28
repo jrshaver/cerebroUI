@@ -1,25 +1,12 @@
 import {
   Component,
-  EventEmitter,
   Inject,
   OnInit,
-  Output
 } from '@angular/core';
 
 import {
   MAT_DIALOG_DATA
 } from '@angular/material/dialog';
-
-import {
-  CardService
-} from '../services/card.service';
-
-import {
-  constants
-} from '../../config/constants'
-
-import Fuse from 'fuse.js'
-import { Router } from '@angular/router';
 
 export interface card {
   Deleted: boolean,
@@ -39,6 +26,7 @@ export interface card {
     Health: string | null,
     Incomplete: boolean,
     Name: string | null,
+    Packs: string[] | null,
     Printings: [{
       ArtificialId: string | null,
       PackId: string | null,
@@ -51,6 +39,7 @@ export interface card {
     Resource: string | null,
     Rules: string | null,
     Scheme: string | null,
+    Sets: string[] | null,
     Slash: boolean,
     Special: string | null,
     Stage: string | null,
@@ -70,9 +59,7 @@ export interface card {
 })
 export class CardComponent implements OnInit {
 
-  @Output() showRelatedCards = new EventEmitter<Fuse.FuseResult<card>[]>();
-
-  constructor(private cardSevice: CardService, @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.cards = this.data.cards;
     this.currentCardIndex = this.data.currentCardIndex;
     this.card = this.cards[this.data.currentCardIndex];
@@ -90,7 +77,6 @@ export class CardComponent implements OnInit {
   currentCardIndex: number = 0;
   card: card;
   cards: card[];
-  imgUrl: string = '';
   enablePreviousButton: boolean = false;
   enableNextButton: boolean = false;
   enableRelatedCards: boolean = true;
@@ -102,24 +88,6 @@ export class CardComponent implements OnInit {
       this.card = this.cards[newIndex];
       this.onCardChange(this.card);
     }
-  }
-
-  getRelatedCards(card: card): void {
-    this.isLoading = true;
-    this.cardSevice.getAllCards().subscribe(cards => {
-      console.log(cards);
-      const fuse = new Fuse(cards, constants.FUSE_OPTIONS);
-      const keywords = this.cardSevice.getKeywords(card);
-      const result = fuse.search({ $or: keywords });
-      console.log("Fuse Results:");
-      console.log(result);
-      this.isLoading = false;
-      this.loadResults(result);
-    });
-  }
-
-  loadResults(result: Fuse.FuseResult<card>[]): void {
-    this.showRelatedCards.emit(result);
   }
 
 }

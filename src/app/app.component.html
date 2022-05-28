@@ -7,9 +7,14 @@
     <router-outlet></router-outlet>
   </div>
 
-  <mat-toolbar color="basic" class="footer">
-    <!-- <a routerLink="/help">Help</a> -->
+  <!-- <mat-toolbar color="basic" class="footer">
+    <a routerLink="/help">Help</a>
     <a routerLink="/about">About Us</a>
     <a routerLink="/donate">Donate</a>
-  </mat-toolbar>
+  </mat-toolbar> -->
+
+  <button type="button" *ngIf="pageYoffset > 0" mat-mini-fab (click)="scrollToTop()" class="scroll-to-top">
+    <mat-icon>keyboard_arrow_up</mat-icon>
+ </button>
+
 </div>

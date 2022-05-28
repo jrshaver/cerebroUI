@@ -16,6 +16,14 @@ Routes:
  /decks/edit = editable view of a deck
 */
 
+const searchRoute: Routes = [{
+  path: '',
+  component: CuiSearchComponent
+}, {
+  path: '**',
+  component: PageNotFoundComponent
+}]
+
 const routes: Routes = [{
   path: '',
   component: CuiSearchComponent,
@@ -44,7 +52,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(searchRoute)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -31,12 +31,9 @@ export class CardService {
   constructor(private http: HttpClient) {}
 
   cardsUrl = constants.API_ENDPOINT + '/cards?';
-  // cardsUrl = '/api/card/';
 
   stopWordsRegex = new RegExp('\\b(' + stopWords + ')\\b', 'gi');
   relatableFields = ['Name', 'Rules', 'Subname', 'Traits'];
-
-  loadingCards: boolean = false;
 
   getCards(query: string): Observable < card[] > {
     return this.http.get < card[] > (this.cardsUrl + query + '&incomplete=false')

@@ -11,15 +11,31 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
 
-  app-cui-filter:first-child {
-    width: 100%;
+.mat-option {
+  font-size: inherit;
+  .mat-icon {
+    margin-right: 0;
+    float: right;
+    padding-top: 9px;
   }
 }
 
-@media only screen and (max-width: 600px) {
-  app-cui-filter,
-  #submitSearchBtn {
+.mat-form-field {
+  width: 24%;
+  min-width: 265px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .mat-form-field {
+    width: 48%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #submitSearchBtn,
+  .mat-form-field {
     width: 100%;
   }
 }

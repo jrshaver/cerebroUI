@@ -24,6 +24,12 @@ span.clear {
   display: block;
 }
 
+.scroll-to-top {
+  position: fixed;
+  bottom: 0.2rem;
+  right: 0.2rem;
+}
+
 .footer {
   font-size: 14px;
   a {

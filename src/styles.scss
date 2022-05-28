@@ -18,31 +18,35 @@ body {
 }
 
 .full-width {
-  width: 100%;
+  width: 100% !important;
 }
 
 .mat-button-focus-overlay {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
-mat-icon[svgIcon='resource-energy'] {
+mat-icon[svgIcon='resource-energy'],
+mat-icon[data-mat-icon-name='resource-energy'] {
   color: #ffd740;
 }
 
-
-mat-icon[svgIcon='resource-mental'] {
+mat-icon[svgIcon='resource-mental'],
+mat-icon[data-mat-icon-name='resource-mental'] {
   color: #3f51b5;
 }
 
-
-mat-icon[svgIcon='resource-physical'] {
-  color: #f44336;
+mat-icon[svgIcon='resource-physical'],
+mat-icon[data-mat-icon-name='resource-physical'] {
+  color: #f44336 !important;
 }
 
-
-mat-icon[svgIcon='resource-wild'] {
+mat-icon[svgIcon='resource-wild'],
+mat-icon[data-mat-icon-name='resource-wild'] {
   color: #46a35e;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@media(max-width: 368px) {
+  .hide-xs {
+    display: none!important;
+  }
+}

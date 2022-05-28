@@ -1,15 +1,163 @@
-<form class="full-width" (ngSubmit)="search()">
-  <mat-form-field class="full-width" appearance="fill">
-    <mat-label>Card Name</mat-label>
-    <input matInput type="text" [(ngModel)]="cardName" name="cardName">
-    <button *ngIf="cardName" matSuffix mat-icon-button aria-label="Clear" (click)="cardName=''" type="button">
-      <mat-icon>close</mat-icon>
-    </button>
-  </mat-form-field>
+<form class="full-width" (ngSubmit)="search()" [formGroup]="form">
 
   <div id="filterContainer">
-    <app-cui-filter *ngFor="let searchFilter of FILTERS" [searchFilter]="searchFilter"></app-cui-filter>
+    <!--name filter-->
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Card Name:</mat-label>
+      <input matInput type="text" aria-label="Card Name" formControlName="name" name="cardName" />
+      <button *ngIf="form.controls['name'].value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="form.controls['name'].setValue('')" class="filterClearButton">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!--text filter-->
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Card Text:</mat-label>
+      <input matInput type="text" aria-label="Card Text" formControlName="text" name="cardText" />
+      <button *ngIf="form.controls['text'].value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="form.controls['text'].setValue('')" class="filterClearButton">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <!--classification filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Classification:</mat-label>
+      <mat-select formControlName="classification" name="classification">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let classification of CLASSIFICATIONS" [value]="classification">
+          {{classification}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--cost filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Cost:</mat-label>
+      <mat-select formControlName="cost" name="cost">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let cost of COSTS" [value]="[cost == 'None' ? 'null' : cost]">
+          {{cost}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--resource filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Resource:</mat-label>
+      <mat-select formControlName="resource" name="resource">
+        <mat-option>Any</mat-option>
+        <mat-option value="{e}">Energy <mat-icon svgIcon="resource-energy"></mat-icon>
+        </mat-option>
+        <mat-option value="{m}">Mental <mat-icon svgIcon="resource-mental"></mat-icon>
+        </mat-option>
+        <mat-option value="{p}">Physical <mat-icon svgIcon="resource-physical"></mat-icon>
+        </mat-option>
+        <mat-option value="{w}">Wild <mat-icon svgIcon="resource-wild"></mat-icon>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--trait filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Trait:</mat-label>
+      <input matInput
+      aria-label="Trait"
+      [matAutocomplete]="autoTraits"
+      formControlName="traits"
+      placeholder="Search Traits">
+      <button *ngIf="form.controls['traits'].value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="form.controls['traits'].setValue('')" class="filterClearButton">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #autoTraits="matAutocomplete">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let trait of filteredTraits | async" [value]="trait">
+          {{trait}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!--type filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Type:</mat-label>
+      <input matInput
+      aria-label="Type"
+      [matAutocomplete]="autoTypes"
+      formControlName="type"
+      placeholder="Search Types">
+      <button *ngIf="form.controls['type'].value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="form.controls['type'].setValue('')" class="filterClearButton">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete autoActiveFirstOption #autoTypes="matAutocomplete">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let type of filteredTypes | async" [value]="type">
+          {{type}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!--pack filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Pack:</mat-label>
+      <input matInput
+      aria-label="Pack"
+      [matAutocomplete]="autoPacks"
+      formControlName="pack"
+      placeholder="Search Packs">
+      <button *ngIf="form.controls['pack'].value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="form.controls['pack'].setValue('')" class="filterClearButton">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete
+      autoActiveFirstOption
+      #autoPacks="matAutocomplete"
+      [displayWith]="getAutoCompleteDisplayValue">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let pack of filteredPacks | async" [value]="pack">
+          {{pack.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!--set filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Set:</mat-label>
+      <input matInput
+      aria-label="Set"
+      [matAutocomplete]="autoSets"
+      formControlName="set"
+      placeholder="Search Sets">
+      <button *ngIf="form.controls['set'].value" matSuffix mat-icon-button aria-label="Clear"
+        (click)="form.controls['set'].setValue('')" class="filterClearButton">
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-autocomplete
+      autoActiveFirstOption
+      #autoSets="matAutocomplete"
+      [displayWith]="getAutoCompleteDisplayValue">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let set of filteredSets | async" [value]="set">
+          {{set.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <!--origin filter-->
+    <mat-form-field appearance="outline">
+      <mat-label>Origin:</mat-label>
+      <mat-select formControlName="origin" name="origin">
+        <mat-option>Any</mat-option>
+        <mat-option *ngFor="let origin of ORIGINS" [value]="origin">
+          {{origin}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
   </div>
+
   <div class="btn-container">
 
     <button mat-raised-button color="primary" id="submitSearchBtn" type="submit">
@@ -25,17 +173,4 @@
 
 </form>
 
-<div [hidden]="cards.length == 0" class="table-container">
-
-  <table mat-table [dataSource]="dataSource" class="full-width mat-elevation-z8" matSort matSortActive="Name"
-    matSortDisableClear matSortDirection="asc" #cardSort="matSort">
-
-    <ng-container *ngFor="let column of displayedColumns" matColumnDef="{{column}}">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</th>
-      <td mat-cell *matCellDef="let row; let i=index" (click)="openDialog(i)">{{getDisplayValue(row, column)}}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
+<app-cui-search-results [cards]="cards" [packs]="packOptions" [sets]="setOptions" (parentEventHandler)="handleChildEvent($event)"></app-cui-search-results>

@@ -21,7 +21,6 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
-    "@angular/service-worker": "~13.3.0",
     "@bugsnag/js": "^7.16.2",
     "@bugsnag/plugin-angular": "^7.16.2",
     "fuse.js": "^6.6.2",

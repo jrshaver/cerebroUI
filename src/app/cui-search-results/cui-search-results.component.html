@@ -1,0 +1,18 @@
+<div [hidden]="cards.length == 0" class="table-container">
+
+  <mat-table [dataSource]="dataSource" class="full-width mat-elevation-z8" matSort matSortActive="Name"
+    matSortDisableClear matSortDirection="asc" #cardSort="matSort">
+
+    <ng-container *ngFor="let column of displayedColumns" matColumnDef="{{column}}">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</mat-header-cell>
+      <mat-cell *matCellDef="let row; let i=index">
+        <span class="mobile-label">{{column}}</span>
+        <span *ngIf="column == 'Resource'"><mat-icon svgIcon="{{getDisplayValue(row, column).toLowerCase()}}"></mat-icon></span>
+        <span *ngIf="column != 'Resource'">{{getDisplayValue(row, column)}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;; let i=index" (click)="openDialog(i)"></mat-row>
+  </mat-table>
+</div>
