@@ -4,9 +4,9 @@
     <!--name filter-->
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Card Name:</mat-label>
-      <input matInput type="text" aria-label="Card Name" formControlName="name" name="cardName" />
+      <input matInput type="text" aria-label="Card Name" formControlName="name" name="cardName" autocomplete="off" />
       <button *ngIf="form.controls['name'].value" matSuffix mat-icon-button aria-label="Clear"
-        (click)="form.controls['name'].setValue('')" class="filterClearButton">
+        (click)="form.controls['name'].setValue('')" class="filterClearButton" type="button">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -14,9 +14,9 @@
     <!--text filter-->
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Card Text:</mat-label>
-      <input matInput type="text" aria-label="Card Text" formControlName="text" name="cardText" />
+      <input matInput type="text" aria-label="Card Text" formControlName="text" name="cardText" autocomplete="off" />
       <button *ngIf="form.controls['text'].value" matSuffix mat-icon-button aria-label="Clear"
-        (click)="form.controls['text'].setValue('')" class="filterClearButton">
+        (click)="form.controls['text'].setValue('')" class="filterClearButton" type="button">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
@@ -66,9 +66,10 @@
       aria-label="Trait"
       [matAutocomplete]="autoTraits"
       formControlName="traits"
-      placeholder="Search Traits">
+      placeholder="Search Traits"
+      autocomplete="off">
       <button *ngIf="form.controls['traits'].value" matSuffix mat-icon-button aria-label="Clear"
-        (click)="form.controls['traits'].setValue('')" class="filterClearButton">
+        (click)="form.controls['traits'].setValue('')" class="filterClearButton" type="button">
         <mat-icon>close</mat-icon>
       </button>
       <mat-autocomplete autoActiveFirstOption #autoTraits="matAutocomplete">
@@ -86,9 +87,10 @@
       aria-label="Type"
       [matAutocomplete]="autoTypes"
       formControlName="type"
-      placeholder="Search Types">
+      placeholder="Search Types"
+      autocomplete="off">
       <button *ngIf="form.controls['type'].value" matSuffix mat-icon-button aria-label="Clear"
-        (click)="form.controls['type'].setValue('')" class="filterClearButton">
+        (click)="form.controls['type'].setValue('')" class="filterClearButton" type="button">
         <mat-icon>close</mat-icon>
       </button>
       <mat-autocomplete autoActiveFirstOption #autoTypes="matAutocomplete">
@@ -106,9 +108,10 @@
       aria-label="Pack"
       [matAutocomplete]="autoPacks"
       formControlName="pack"
-      placeholder="Search Packs">
+      placeholder="Search Packs"
+      autocomplete="off">
       <button *ngIf="form.controls['pack'].value" matSuffix mat-icon-button aria-label="Clear"
-        (click)="form.controls['pack'].setValue('')" class="filterClearButton">
+        (click)="form.controls['pack'].setValue('')" class="filterClearButton" type="button">
         <mat-icon>close</mat-icon>
       </button>
       <mat-autocomplete
@@ -129,9 +132,10 @@
       aria-label="Set"
       [matAutocomplete]="autoSets"
       formControlName="set"
-      placeholder="Search Sets">
+      placeholder="Search Sets"
+      autocomplete="off">
       <button *ngIf="form.controls['set'].value" matSuffix mat-icon-button aria-label="Clear"
-        (click)="form.controls['set'].setValue('')" class="filterClearButton">
+        (click)="form.controls['set'].setValue('')" class="filterClearButton" type="button">
         <mat-icon>close</mat-icon>
       </button>
       <mat-autocomplete
@@ -159,10 +163,15 @@
   </div>
 
   <div class="btn-container">
+    <input type="submit" style="display: none" />
 
     <button mat-raised-button color="primary" id="submitSearchBtn" type="submit">
       <mat-icon>search</mat-icon>
       Search
+    </button>
+    <button *ngIf="form.dirty || cards.length > 0" (click)="clearForm()" mat-raised-button color="accent" id="submitSearchBtn" type="button" style="float: right">
+      <mat-icon>clear</mat-icon>
+      Clear Form
     </button>
 
     <div *ngIf="error" class="inline-block error">{{error}}</div>
@@ -173,4 +182,4 @@
 
 </form>
 
-<app-cui-search-results [cards]="cards" [packs]="packOptions" [sets]="setOptions" (parentEventHandler)="handleChildEvent($event)"></app-cui-search-results>
+<app-search-results [cards]="cards" [packs]="packOptions" [sets]="setOptions" (parentEventHandler)="handleChildEvent($event)"></app-search-results>

@@ -5,7 +5,7 @@ import {
 
 import {
   CardService
-} from '../services/card.service';
+} from '../shared/services/card.service';
 
 import {
   card
@@ -13,8 +13,7 @@ import {
 
 import {
   map,
-  startWith,
-  tap
+  startWith
 } from 'rxjs/operators';
 
 import {
@@ -24,10 +23,10 @@ import {
 
 import {
   PackService
-} from '../services/pack.service';
+} from '../shared/services/pack.service';
 import {
   SetService
-} from '../services/set.service';
+} from '../shared/services/set.service';
 
 import Fuse from 'fuse.js';
 import {
@@ -38,14 +37,15 @@ import {
   constants,
   FilterOption
 } from 'src/config/constants';
+import { UtilService } from '../shared/services/util.service';
 
 @Component({
-  selector: 'app-cui-search',
-  templateUrl: './cui-search.component.html',
-  providers: [CardService],
-  styleUrls: ['./cui-search.component.scss']
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  providers: [CardService, PackService, SetService, UtilService],
+  styleUrls: ['./search.component.scss']
 })
-export class CuiSearchComponent implements OnInit {
+export class SearchComponent implements OnInit {
 
   cards: card[] | Fuse.FuseResult < card > [] = [];
   error: string = '';
@@ -72,7 +72,8 @@ export class CuiSearchComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private cardSevice: CardService,
     private packService: PackService,
-    private setService: SetService) {}
+    private setService: SetService,
+    private utilService: UtilService) {}
 
   ngOnInit(): void {
     this.filteredPacks = this.filteredPackOptionsSubject.asObservable();
@@ -177,35 +178,9 @@ export class CuiSearchComponent implements OnInit {
   setCards(cards: card[]): void {
     this.cards = cards.map((card: any) => ({
       ...card,
-      Packs: this.getPrintingsData(card, this.packOptions, 'PackId'),
-      Sets: this.getPrintingsData(card, this.setOptions, 'SetId')
+      Packs: this.utilService.getPrintingsData(card, this.packOptions, 'PackId'),
+      Sets: this.utilService.getPrintingsData(card, this.setOptions, 'SetId')
     }))
-  }
-
-  getPrintingsData(card: card, dataSet: any[], printingColumn: string): string[] {
-    return dataSet.filter((dataPoint) => {
-      return card.Printings.some((printing: any) => printing[printingColumn] == dataPoint.value);
-    }).map(printing => printing.name).sort();
-  }
-
-  getPackOptions(): Observable < FilterOption[] > {
-    return this.packService.getAllPacks()
-      .pipe(map(packs => packs.map((pack: any) => ({
-          name: pack.Name,
-          value: pack.Id
-        }))),
-        tap((packs: any) => {
-          this.filteredPackOptionsSubject.next(packs);
-        }))
-  }
-
-  getSetOptions(): Observable < FilterOption[] > {
-    return this.setService.getAllSets()
-      .pipe(map(sets => sets.map((pack: any) => ({
-          name: pack.Name,
-          value: pack.Id
-        }))),
-        tap((sets: any) => console.log(sets)))
   }
 
   onAutocompleteKeyUp(searchText: string, packOptions: FilterOption[]): void {
@@ -232,5 +207,9 @@ export class CuiSearchComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return possibleValues.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  clearForm(): void {
+    this.form.reset();
   }
 }

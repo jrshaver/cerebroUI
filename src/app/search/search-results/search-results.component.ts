@@ -6,8 +6,7 @@ import {
   SimpleChanges,
   Output,
   EventEmitter,
-  HostListener,
-  ChangeDetectionStrategy
+  HostListener
 } from '@angular/core';
 import {
   MatDialog
@@ -19,26 +18,27 @@ import {
 import {
   card,
   CardComponent
-} from '../card/card.component';
+} from '../../card/card.component';
 import Fuse from 'fuse.js';
 import {
   MatTableDataSource
 } from '@angular/material/table';
 import {
   CardService
-} from '../services/card.service';
+} from '../../shared/services/card.service';
 import {
   constants
 } from 'src/config/constants';
+import { UtilService } from 'src/app/shared/services/util.service';
 
 @Component({
-  selector: 'app-cui-search-results',
-  templateUrl: './cui-search-results.component.html',
-  styleUrls: ['./cui-search-results.component.scss']
+  selector: 'app-search-results',
+  templateUrl: './search-results.component.html',
+  styleUrls: ['./search-results.component.scss']
 })
-export class CuiSearchResultsComponent implements AfterViewInit {
+export class SearchResultsComponent implements AfterViewInit {
 
-  constructor(public dialog: MatDialog, private cardSevice: CardService) {
+  constructor(public dialog: MatDialog, private cardSevice: CardService, private utilService: UtilService) {
     this.getScreenSize();
   }
 
@@ -84,11 +84,12 @@ export class CuiSearchResultsComponent implements AfterViewInit {
     "Sets"
   ];
 
-  public getDisplayValue(row: any, col: string): string {
+  public getDisplayValue(row: any, col: string) {
     let returnValue;
     if (col == 'Resource') {
-      let translated = this.translateResources(row[col]);
-      returnValue = translated ? 'resource-' + translated: '';
+      let translated = this.translateResources(row[col]); //['Mental', 'Wild'] -> ['resource-Mental', 'resource-Wild']
+      returnValue = translated ? translated.map((resource: string) => ('resource-' + resource.toLowerCase())) : [];
+      return returnValue;
     } else {
       returnValue = row[col];
     }
@@ -103,7 +104,7 @@ export class CuiSearchResultsComponent implements AfterViewInit {
     return returnValue;
   }
 
-  translateResources(resource: string) {
+  translateResources(resource: string): any {
     const resources: Object = {
       Energy: '{e}',
       Mental: '{m}',
@@ -113,11 +114,10 @@ export class CuiSearchResultsComponent implements AfterViewInit {
     if (resources.hasOwnProperty(resource)) {
       return resources[resource as keyof Object];
     } else {
-      let keyFound = '';
+      let keyFound: any[] = [];
       Object.entries(resources).find(([key, value]) => {
-        if (value === resource) {
-          keyFound = key;
-          return keyFound;
+        if (resource && resource.indexOf(value) > -1) {
+          keyFound.push(key);
         }
         return '';
       });
@@ -164,7 +164,9 @@ export class CuiSearchResultsComponent implements AfterViewInit {
       results.shift();
       this.setCards(results.map((result, index) => ({
         ...result.item,
-        Rank: index + 1
+        Rank: index + 1,
+        Packs: this.utilService.getPrintingsData(result.item, this.packs, 'PackId'),
+        Sets: this.utilService.getPrintingsData(result.item, this.sets, 'SetId')
       })));
       this.parentEventHandler.emit({
         event: 'isLoading',
@@ -182,7 +184,6 @@ export class CuiSearchResultsComponent implements AfterViewInit {
   }
 
   setCards(cards: any): void {
-    console.log(cards);
     this.removeDisplayColumn('Rank');
     this.cards = cards;
     this.dataSource = new MatTableDataSource(cards);

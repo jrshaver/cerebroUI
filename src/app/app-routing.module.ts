@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { AboutComponent } from './about/about.component';
-import { CuiSearchComponent } from './cui-search/cui-search.component';
-import { DeckEditorComponent } from './deck-editor/deck-editor.component';
-import { DecklistComponent } from './decklist/decklist.component';
+import { DeckEditorComponent } from './decks/deck-editor/deck-editor.component';
+import { DecklistComponent } from './decks/decklist/decklist.component';
 import { DonateComponent } from './donate/donate.component';
 import { HelpComponent } from './help/help.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -17,17 +16,13 @@ Routes:
 */
 
 const searchRoute: Routes = [{
-  path: '',
-  component: CuiSearchComponent
+  path: '', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
 }, {
   path: '**',
   component: PageNotFoundComponent
 }]
 
 const routes: Routes = [{
-  path: '',
-  component: CuiSearchComponent,
-},{
   path: 'decks',
   component: DecklistComponent,
   children: [{
@@ -52,7 +47,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(searchRoute)],
+  imports: [RouterModule.forRoot(searchRoute, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

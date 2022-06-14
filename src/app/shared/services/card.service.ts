@@ -5,23 +5,19 @@ import {
   HttpClient
 } from '@angular/common/http';
 import {
-  map,
-  Observable,
-  Subscription
+  Observable
 } from 'rxjs';
 import {
   stopWords
-} from '../../config/stopwords';
+} from '../../../config/stopwords';
 
 import {
   card
-} from '../card/card.component';
+} from '../../card/card.component';
 
 import {
   constants
-} from '../../config/constants'
-
-import Fuse from 'fuse.js'
+} from '../../../config/constants'
 
 @Injectable({
   providedIn: 'root'

@@ -11,7 +11,7 @@ import {
 
 import {
   card
-} from '../card/card.component';
+} from '../../card/card.component';
 
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 

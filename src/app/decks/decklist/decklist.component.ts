@@ -7,7 +7,7 @@ import { MatSort } from '@angular/material/sort';
 
 import {
   card
-} from '../card/card.component'
+} from '../../card/card.component'
 
 export interface deck {
   id: string,
