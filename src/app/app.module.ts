@@ -16,8 +16,6 @@ import { CardComponent } from './card/card.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAnalytics,getAnalytics,ScreenTrackingService,UserTrackingService } from '@angular/fire/analytics';
 import { provideAuth,getAuth } from '@angular/fire/auth';
-import { DecklistComponent } from './decks/decklist/decklist.component';
-import { DeckEditorComponent } from './decks/deck-editor/deck-editor.component';
 import { CardImageComponent } from './card-image/card-image.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -42,7 +40,6 @@ export function errorHandlerFactory() {
     CardImageComponent,
     CardComponent,
     ProfileComponent,
-    DecklistComponent,
     PageNotFoundComponent,
     AboutComponent,
     DonateComponent,

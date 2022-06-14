@@ -24,7 +24,7 @@
   <input matInput type="text" name="cardSearch">
 </mat-form-field>
 
-<div cdkDropListGroup>
+<!-- <div cdkDropListGroup>
   <div class="example-container">
     <h2>Avaiable Cards <mat-icon svgIcon="resource-energy" matTooltip="Energy Resource"></mat-icon> <mat-icon svgIcon="resource-mental" matTooltip="Mental Resource"></mat-icon> <mat-icon svgIcon="resource-physical" matTooltip="Physical Resource"></mat-icon> <mat-icon svgIcon="resource-wild" matTooltip="Wild Resource"></mat-icon>
     </h2>
@@ -35,7 +35,7 @@
         {{card.Name}}
         <app-card-image [card]="card"></app-card-image>
         <span class="clear"></span>
-        <!-- <app-card-image *ngIf="hoverCard == card" [card]="card"></app-card-image> -->
+        <app-card-image *ngIf="hoverCard == card" [card]="card"></app-card-image>
       </div>
     </div>
   </div>
@@ -47,4 +47,4 @@
       <div class="example-box" *ngFor="let card of cardSelection" cdkDrag>{{card.Name}}</div>
     </div>
   </div>
-</div>
+</div> -->
