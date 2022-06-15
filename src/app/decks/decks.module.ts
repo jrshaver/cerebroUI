@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+
+import { DecksRoutingModule } from './decks-routing.module';
 import { DecklistComponent } from './decklist/decklist.component';
 import { DeckEditorComponent } from './deck-editor/deck-editor.component';
-
-import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    MatFormFieldModule,
+    MatCardModule,
+    DecksRoutingModule
   ]
 })
 export class DecksModule { }

@@ -8,4 +8,4 @@ const routes: Routes = [{ path: '', component: DecklistComponent }];
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SearchRoutingModule { }
+export class DecksRoutingModule { }

@@ -15,14 +15,18 @@ Routes:
  /decks/edit = editable view of a deck
 */
 
-const searchRoute: Routes = [{
-  path: '', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
+const routes: Routes = [{
+  path: '',
+  loadChildren: () => import('./search/search.module').then(m => m.SearchModule)
 }, {
+//   path: 'decks',
+//   loadChildren: () => import('./decks/decks.module').then(m => m.DecksModule)
+// }, {
   path: '**',
   component: PageNotFoundComponent
 }]
 
-const routes: Routes = [{
+const placeholders: Routes = [{
   path: 'decks',
   component: DecklistComponent,
   children: [{
@@ -47,7 +51,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(searchRoute, { preloadingStrategy: PreloadAllModules })],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

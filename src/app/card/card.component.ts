@@ -5,8 +5,11 @@ import {
 } from '@angular/core';
 
 import {
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA, MatDialogModule
 } from '@angular/material/dialog';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 export interface card {
   Deleted: boolean,

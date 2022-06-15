@@ -5,7 +5,7 @@ import {
 
 import {
   CardService
-} from '../shared/services/card.service';
+} from '../services/card.service';
 
 import {
   card
@@ -23,10 +23,10 @@ import {
 
 import {
   PackService
-} from '../shared/services/pack.service';
+} from '../services/pack.service';
 import {
   SetService
-} from '../shared/services/set.service';
+} from '../services/set.service';
 
 import Fuse from 'fuse.js';
 import {
@@ -37,7 +37,7 @@ import {
   constants,
   FilterOption
 } from 'src/config/constants';
-import { UtilService } from '../shared/services/util.service';
+import { UtilService } from '../services/util.service';
 
 @Component({
   selector: 'app-search',

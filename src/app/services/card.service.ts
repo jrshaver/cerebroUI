@@ -9,15 +9,11 @@ import {
 } from 'rxjs';
 import {
   stopWords
-} from '../../../config/stopwords';
-
-import {
-  card
-} from '../../card/card.component';
-
+} from '../../config/stopwords';
 import {
   constants
-} from '../../../config/constants'
+} from '../../config/constants'
+import { card } from '../card/card.component';
 
 @Injectable({
   providedIn: 'root'

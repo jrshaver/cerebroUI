@@ -25,11 +25,11 @@ import {
 } from '@angular/material/table';
 import {
   CardService
-} from '../../shared/services/card.service';
+} from '../../services/card.service';
 import {
   constants
 } from 'src/config/constants';
-import { UtilService } from 'src/app/shared/services/util.service';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-search-results',

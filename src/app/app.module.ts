@@ -10,21 +10,29 @@ import { environment } from '../environments/environment';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { SearchModule } from './search/search.module';
-
-import { CardComponent } from './card/card.component';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAnalytics,getAnalytics,ScreenTrackingService,UserTrackingService } from '@angular/fire/analytics';
 import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFunctions,getFunctions } from '@angular/fire/functions';
+
+import { CardComponent } from './card/card.component';
 import { CardImageComponent } from './card-image/card-image.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AboutComponent } from './about/about.component';
 import { DonateComponent } from './donate/donate.component';
 import { HelpComponent } from './help/help.component';
-import { provideFunctions,getFunctions } from '@angular/fire/functions';
-import { SharedModule } from './shared/shared.module';
+
+import { SearchModule } from './search/search.module';
 import { DecksModule } from './decks/decks.module';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+
 
 // configure Bugsnag asap
 Bugsnag.start({ apiKey: 'a533490a60acd33f9d879afa64e6a5c5' })
@@ -37,8 +45,8 @@ export function errorHandlerFactory() {
 @NgModule({
   declarations: [
     AppComponent,
-    CardImageComponent,
     CardComponent,
+    CardImageComponent,
     ProfileComponent,
     PageNotFoundComponent,
     AboutComponent,
@@ -49,10 +57,15 @@ export function errorHandlerFactory() {
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     SearchModule,
     DecksModule,
-    HttpClientModule,
-    SharedModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressBarModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatButtonModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
