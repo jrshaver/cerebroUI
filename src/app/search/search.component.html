@@ -1,0 +1,158 @@
+<div class="bg-white p-4">
+  <form class="full-width" (ngSubmit)="search()" [formGroup]="form">
+
+    <div id="filterContainer" class="row">
+      <!--name filter-->
+      <div class="col full-width">
+        <input type="text" formControlName="name" name="cardName" class="form-control" placeholder="Card Name" />
+        <button *ngIf="form.controls['name'].value" aria-label="Clear" (click)="form.controls['name'].setValue('')"
+          class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--text filter-->
+      <div class="col full-width">
+        <input type="text" formControlName="text" name="cardText" class="form-control" placeholder="Card Text" />
+        <button *ngIf="form.controls['text'].value" aria-label="Clear" (click)="form.controls['text'].setValue('')"
+          class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--classification filter-->
+      <div class="col">
+        <select formControlName="classification" name="classification" class="form-select" aria-label="Classification">
+          <option value="" selected disabled hidden>Classification</option>
+          <option *ngFor="let classification of CLASSIFICATIONS" [value]="classification">
+            {{classification}}
+          </option>
+        </select>
+      </div>
+
+      <!--cost filter-->
+      <div class="col">
+        <select formControlName="cost" name="cost" class="form-select" aria-label="Cost">
+          <option value="" selected disabled hidden>Cost</option>
+          <option *ngFor="let cost of COSTS" [value]="[cost == 'None' ? 'null' : cost]">
+            {{cost}}
+          </option>
+        </select>
+      </div>
+
+      <!--resource filter-->
+      <div class="col">
+        <ng-template #rt let-r="result" let-t="term">
+          <app-resource-icon [resource]="r.name.toLowerCase()"></app-resource-icon>
+          <ngb-highlight [result]="r.name || r" [term]="t" class="ms-2"></ngb-highlight>
+        </ng-template>
+        <input id="typeahead-focus" type="text" class="form-control" formControlName="resource"
+          [placeholder]="resourcePlaceholder" [ngbTypeahead]="searchResources"
+          (focus)="focus$[0].next($any($event).target.value); resourcePlaceholder = 'Search Resources'"
+          (focusout)="resourcePlaceholder = 'Resource'" (click)="click$[0].next($any($event).target.value)"
+          #instance="ngbTypeahead" [resultTemplate]="rt" [inputFormatter]="typeaheadFormatter" />
+        <button *ngIf="form.controls['resource'].value" aria-label="Clear"
+          (click)="form.controls['resource'].setValue('')" class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--trait filter-->
+      <div class="col">
+        <input id="typeahead-focus" type="text" class="form-control" formControlName="traits"
+          [placeholder]="traitPlaceholder" [ngbTypeahead]="searchTraits"
+          (focus)="focus$[1].next($any($event).target.value); traitPlaceholder = 'Search Traits'"
+          (focusout)="traitPlaceholder = 'Trait'" (click)="click$[1].next($any($event).target.value)"
+          #instance="ngbTypeahead" />
+        <button *ngIf="form.controls['traits'].value" aria-label="Clear" (click)="form.controls['traits'].setValue('')"
+          class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--type filter-->
+      <div class="col">
+        <input id="typeahead-focus" type="text" class="form-control" formControlName="type"
+          [placeholder]="typePlaceholder" [ngbTypeahead]="searchTypes"
+          (focus)="focus$[2].next($any($event).target.value); typePlaceholder = 'Search Types'"
+          (focusout)="typePlaceholder = 'Type'" (click)="click$[2].next($any($event).target.value)"
+          #instance="ngbTypeahead" />
+        <button *ngIf="form.controls['type'].value" aria-label="Clear" (click)="form.controls['type'].setValue('')"
+          class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--pack filter-->
+      <div class="col">
+        <ng-template #pt let-r="result" let-t="term">
+          <ngb-highlight [result]="r.name || r" [term]="t" class="ms-2"></ngb-highlight>
+        </ng-template>
+        <input id="typeahead-focus" type="text" class="form-control" formControlName="pack"
+          [placeholder]="packPlaceholder" [ngbTypeahead]="searchPacks"
+          (focus)="focus$[3].next($any($event).target.value); packPlaceholder = 'Search Packs'"
+          (focusout)="packPlaceholder = 'Pack'" (click)="click$[3].next($any($event).target.value)"
+          #instance="ngbTypeahead" [resultTemplate]="pt" [inputFormatter]="typeaheadFormatter" />
+        <button *ngIf="form.controls['pack'].value" aria-label="Clear" (click)="form.controls['pack'].setValue('')"
+          class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--set filter-->
+      <div class="col">
+        <ng-template #st let-r="result" let-t="term">
+          <ngb-highlight [result]="r.name || r" [term]="t" class="ms-2"></ngb-highlight>
+        </ng-template>
+        <input id="typeahead-focus" type="text" class="form-control" formControlName="set"
+          [placeholder]="setPlaceholder" [ngbTypeahead]="searchSets"
+          (focus)="focus$[4].next($any($event).target.value); setPlaceholder = 'Search Sets'"
+          (focusout)="setPlaceholder = 'Set'" (click)="click$[4].next($any($event).target.value)"
+          #instance="ngbTypeahead" [resultTemplate]="st" [inputFormatter]="typeaheadFormatter" />
+        <button *ngIf="form.controls['set'].value" aria-label="Clear" (click)="form.controls['set'].setValue('')"
+          class="btn btn-link filter-clear-button" type="button">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!--origin filter-->
+      <div class="col">
+        <select formControlName="origin" name="origin" class="form-select" aria-label="Origin">
+          <option value="" selected disabled hidden>Origin</option>
+          <option *ngFor="let origin of ORIGINS">
+            {{origin}}
+          </option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="btn-container col">
+        <button class="btn btn-primary submit-search-btn" type="submit">
+          <i class="fas fa-search"></i>
+          Search
+        </button>
+        <button *ngIf="form.dirty" (click)="clearForm()" class="btn btn-secondary submit-search-btn mx-2" type="button">
+          <i class="fas fa-times"></i>
+          Clear Form
+        </button>
+
+        <div *ngIf="error" class="inline-block error">{{error}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-spinner">
+      <img src="/assets/icons/loading-spinner.svg" />
+    </div>
+
+  </form>
+
+  <app-search-results [cards]="cards" [packs]="packOptions" [sets]="setOptions"
+    (parentEventHandler)="handleChildEvent($event)" [inModal]="inModal"></app-search-results>
+
+</div>
+
+  <div class="modal-footer" *ngIf="inModal && cards.length > 0">
+    <button type="button" class="btn btn-primary col" (click)="addSelectedCards(cards)">Add selected to deck</button>
+  </div>

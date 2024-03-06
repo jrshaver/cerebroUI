@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <h4 class="modal-title">Get Over Here!</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <input [(ngModel)]="id" class="form-control" id="id" placeholder="Deck ID">
+  <a class="btn btn-link mt-3 full-width" href="/assets/cdb-id-reference.png" target="_blank">How to locate your Deck
+    ID</a>
+  <div *ngIf="importError">
+    <span class="text-danger fw-bold mb-1">{{importError}}</span>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="d-grid gap-2 full-width">
+    <button type="button" class="btn btn-primary" (click)="importDeck()">Import deck from MarvelCBD</button>
+  </div>
+</div>

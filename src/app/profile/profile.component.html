@@ -1,0 +1,36 @@
+<div *ngIf="profileForm" class="bg-white p-5">
+  <p>Your cerebroUI Profile</p>
+  <p><i *ngIf="user">Member since {{user.created}}</i></p>
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input formControlName="emailAddress" class="form-control" [ngClass]="hasError && emailError ? 'is-invalid' : ''" id="email" placeholder="name@example.com">
+      <div class="invalid-feedback">
+        {{emailError}}
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input formControlName="passwordHash" type="password" class="form-control" [ngClass]="hasError && passwordError ? 'is-invalid' : ''" id="password">
+      <div class="invalid-feedback">
+        {{passwordError}}
+      </div>
+    </div>
+    <button class="btn btn-primary d-block my-3" type="button" data-bs-toggle="collapse" data-bs-target="#collection" aria-expanded="false" aria-controls="collection">
+      Manage Collection
+    </button>
+    <div class="collapse my-3 card" id="collection">
+      <div class="card-body row">
+        
+        <div *ngFor="let pack of packs" class="form-check form-check-inline col-sm  ">
+          <input class="form-check-input" type="checkbox" id="{{pack.value}}" value="{{pack.value}}">
+          <label class="form-check-label" for="{{pack.value}}">{{pack.name}}</label>
+        </div>
+      </div>
+      </div>
+    <button class="btn btn-primary d-block my-3" type="submit">
+      Update Profile
+    </button>
+
+  </form>
+</div>

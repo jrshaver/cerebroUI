@@ -1,0 +1,29 @@
+#searchResultsTable {
+  font-size: 12px;
+
+  th {
+    min-width: 105px;
+  }
+
+  #addTh {
+    min-width: auto;
+
+    .btn {
+      font-size: inherit;
+      padding: 0;
+      font-weight: inherit;
+    }
+  }
+
+}
+
+thead tr:nth-child(1) th {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-responsive {
+  max-height: 35vh;
+}

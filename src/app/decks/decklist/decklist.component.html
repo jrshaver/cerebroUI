@@ -1,0 +1,32 @@
+<div class="bg-white p-5">
+  <h1 class="pull-left">{{pageTitle}}</h1>
+  <div class="pull-right" *ngIf="loggedInUserId">
+    <button type="button" (click)="newDeck()" class="btn btn-primary">Create New Deck</button>
+    <button type="button" (click)="openImportModal()" class="btn btn-secondary mx-1">Import Deck</button>
+  </div>
+
+  <table class="table table-striped table-hover" id="decksTable">
+    <thead>
+      <tr>
+        <th scope="col" *ngFor="let column of displayedColumns">
+          {{column | titlecase}}</th>
+        <ng-container *ngIf="showActions">
+          <th scope="col" *ngFor="let action of deckActions" class="action-cells">
+            {{action.name}}
+          </th>
+        </ng-container>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let deck of decks let i=index" (click)="editDeck(deck)" class="{{deck.aspects[0].toLowerCase()}}">
+        <td *ngFor="let column of displayedColumns">{{getDisplayValue(deck, column)}}</td>
+        <ng-container *ngIf="showActions">
+          <td *ngFor="let action of deckActions" (click)="doAction(action.name, deck); $event.stopPropagation()"
+            class="action-cells">
+            <i class="fas fa-{{action.icon}}"></i>
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</div>

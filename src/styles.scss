@@ -1,1 +1,138 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+#bg {
+  background: url(/assets/original-box-splash-art.jpg) no-repeat fixed;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-size: auto;
+}
+
+@media (min-width: 1600px) {
+  #bg {
+    background-repeat: round;
+  }
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.error {
+  padding: 0 1rem;
+  color: #f44336;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.resource-energy,
+.justice-text {
+  color: #ffd740 !important;
+  fill: #ffd740 !important;
+}
+
+.resource-mental,
+.leadership-text {
+  color: #3f51b5 !important;
+  fill: #3f51b5 !important;
+}
+
+.resource-physical,
+.aggression-text {
+  color: #f44336 !important;
+  fill: #f44336 !important;
+}
+
+.resource-wild,
+.protection-text {
+  color: #46a35e !important;
+  fill: #46a35e !important;
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -50px;
+}
+
+.sortableIcon {
+  &:before {
+    content: "\f0dc";
+  }
+}
+
+.sortable.asc .sortableIcon:before {
+  content: "\f0de";
+}
+
+.sortable.desc .sortableIcon:before {
+  content: "\f0dd";
+}
+
+.modal-dialog.modal-md {
+  max-width: 375px !important;
+}
+
+.filter-clear-button {
+  z-index: 100;
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  padding: 0!important;
+  &:hover {
+    background: initial;
+  }
+}
+
+::placeholder, /* Chrome, Firefox, Opera, Safari 10.1+ */
+:-ms-input-placeholder, /* Internet Explorer 10-11 */
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #212529;
+  opacity: 1; /* Firefox */
+}
+
+.home-wrapper {
+  color: #fff;
+  background: rgba(0, 0, 0, .8);
+  img {
+    max-width: 100%;
+  }
+  a {
+    color: #fff;
+  }
+}
+
+.dropdown-menu {
+  overflow: auto;
+  max-height: 350px;
+}
+
+/* Importing Bootstrap SCSS file. */
+// @import '~bootstrap/scss/custom_variables';
+// @import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/custom_variables';
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';

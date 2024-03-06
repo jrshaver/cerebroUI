@@ -1,0 +1,121 @@
+<div *ngIf="isLoading" class="loading-spinner">
+  <img src="/assets/icons/loading-spinner.svg" />
+</div>
+
+<div *ngIf="deck && !isLoading">
+
+  <form [formGroup]="deckForm">
+    <div id="deckMetadata">
+      <ng-container *ngIf="isLoggedInUsersDeck">
+        <input type="text" placeholder="Name your deck" class="form-control border-0 bg-transparent" id="name"
+          name="name" required formControlName="title" />
+        <textarea placeholder="Describe your deck" class="form-control border-0 bg-transparent" id="description"
+          name="description" #autoResize formControlName="description"></textarea>
+        <div class="form-check form-switch" id="publicCheckbox">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="isPublic">
+          <label class="form-check-label" for="flexSwitchCheckDefault">Public</label>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!isLoggedInUsersDeck">
+        <input type="text" class="form-control border-0 bg-transparent" id="name" name="name" required
+          formControlName="title" readonly />
+        <textarea class="form-control border-0 bg-transparent" id="description" name="description" #autoResize
+          formControlName="description" readonly></textarea>
+      </ng-container>
+      <div><i class="fa fa-circle-check"></i> Valid</div>
+    </div>
+
+    <div class="deck">
+      <!--Search-->
+      <ng-container *ngIf="isLoggedInUsersDeck">
+        <button class="btn btn-link btn-sm" id="advancedSearchBtn" (click)="openSearchModal()">Advanced Search</button>
+        <input type="text" class="form-control full-width" id="cardSearch" name="cardSearch"
+          placeholder="Search for cards to add" [ngbTypeahead]="search" [resultFormatter]="cardDisplayFn"
+          [resultTemplate]="rt" [inputFormatter]="typeaheadFormatter" #searchInput
+          (selectItem)="selectedItem($event, searchInput)" />
+
+        <ng-template #rt let-r="result" let-t="term">
+          <ngb-highlight [result]="r.Name" [term]="t"></ngb-highlight>
+          <span *ngIf="r.Subname"> ({{r.Subname}})</span>
+          <span *ngIf="r.Classification"><br />{{r.Classification}}</span>
+          <span *ngIf="r.Type"><small> {{r.Type}}</small></span>
+        </ng-template>
+
+        <div *ngIf="!deck.cards || deck.cards.length == 0" class="card noCardsMessage">
+          <h1 class="lead p-5 text-center">No cards just yet...use the search bar to build your deck!</h1>
+        </div>
+      </ng-container>
+
+      <nav class="navbar bg-light mb-3">
+        <div class="container-fluid">
+          <ul class="navbar-nav me-auto flex-nowrap">
+            <li class="nav-item">
+              <label for="viewAs" class="col-form-label me-1">View as</label>
+              <select class="form-select form-select-sm" aria-label="View as" id="viewAs" name="viewAs"
+                [(ngModel)]="viewAs" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let view of VIEWS" [ngValue]="view">{{view}}</option>
+              </select>
+            </li>
+          </ul>
+          <div class="d-flex">
+            <button class="btn btn-sm btn-primary" (click)="copyDeck(deck)">Copy</button>
+            <button *ngIf="isLoggedInUsersDeck" class="btn btn-sm btn-danger ms-1"
+              (click)="deleteDeck(deck)">Delete</button>
+          </div>
+        </div>
+      </nav>
+
+      <div class="deck-container container-fluid">
+        <div class="row gy-4">
+          <ng-container *ngFor="let group of groupedCards | keyvalue">
+            <div *ngIf="group && group.value" class="col-sm-4 col-md-3">
+              <div class="p-3 card text-white bg-dark">
+                <h2>{{ group.key }} ({{$any(group.value).numberOfCards}})</h2>
+                <div *ngFor="let card of $any(group.value); index as i" class="row">
+                  <ng-container *ngIf="viewAs == 'Text'">
+
+                    <div class="col">
+                      <div [ngbTooltip]="cardHoverImage" class="card-image">
+                        {{card.Name}}
+                      </div>
+                    </div>
+                    <ng-template #cardHoverImage>
+                      <app-card-image cardId="{{card.Id}}"></app-card-image>
+                    </ng-template>
+                    <div class="col">
+                      <div *ngIf="card && isLoggedInUsersDeck" class="btn-group btn-group-sm m-1" role="group">
+                        <button *ngIf="card.quantity > 1" class="btn btn-light" aria-label="Reduce card"
+                          (click)="removeCard(card)">
+                          <span class="fa fa-minus"></span>
+                        </button>
+                        <button *ngIf="card.quantity == 1" class="btn btn-light" aria-label="Remove card"
+                          (click)="removeCard(card)">
+                          <span class="fa fa-times"></span>
+                        </button>
+                        <input type="number" [(ngModel)]="card.quantity" [ngModelOptions]="{standalone: true}" min="0"
+                          max="{{MAX_CARD_COUNT}}" step="1" class="form-control" />
+                        <button [disabled]="card.quantity == MAX_CARD_COUNT" class="btn btn-light ms-0"
+                          aria-label="Add card" (click)="addCard(card)">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                  </ng-container>
+                  <ng-container *ngIf="viewAs == 'Stacks'">
+                    <div class="col" id="cardStack">
+                      <div class="stack" [style.top.px]="i*80">
+                        <app-card-image cardId="{{card.Id}}"></app-card-image>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+<div class="bg-white p-5">
+  <p>Create an account with us to save decks</p>
+
+  <form [formGroup]="registerForm" class="needs-validation" novalidate (ngSubmit)="register()">
+
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input formControlName="username" type="type" class="form-control"
+        [ngClass]="hasError && emailError ? 'is-invalid' : ''" id="username" placeholder="ICantDoThisAllDay">
+      <div class="invalid-feedback">
+        {{usernameError}}
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input formControlName="emailAddress" type="email" class="form-control"
+        [ngClass]="hasError && emailError ? 'is-invalid' : ''" id="email" placeholder="name@example.com">
+      <div class="invalid-feedback">
+        {{emailError}}
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input formControlName="passwordHash" type="password" class="form-control"
+        [ngClass]="hasError && passwordError ? 'is-invalid' : ''" id="password">
+      <div class="invalid-feedback">
+        {{passwordError}}
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Register</button>
+
+  </form>
+
+</div>

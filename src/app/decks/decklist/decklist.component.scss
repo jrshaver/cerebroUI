@@ -1,0 +1,29 @@
+#deckGridContainer {
+  clear: both;
+  .card {
+    min-width: 285px;
+    max-width: 285px;
+    .deck-action-item {
+      margin: 0 5px;
+      float: right;
+      cursor: pointer;
+    }
+  }
+}
+
+#decksTable {
+  tr {
+    cursor: pointer;
+    .action-cells {
+      text-align: center;
+      max-width: 10vw;
+    }
+    th, td {
+      padding: 1rem;
+    }
+  }
+}
+
+.dropdown-toggle::after {
+  display: none;
+}

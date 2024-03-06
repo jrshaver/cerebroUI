@@ -1,0 +1,37 @@
+<!-- <div id="homeSearchWrapper" class="home-wrapper">
+  <h1>Use only if your identity has the <b><i>MUTANT</i></b> trait.</h1>
+  <form class="row g-3 align-items-center">
+    <div class="col-md-11">
+      <ng-template #rt let-r="result" let-t="term">
+        <ngb-highlight [result]="r.Name" [term]="t"></ngb-highlight>
+      </ng-template>
+      <input type="text" [class.is-invalid]="searchFailed" [(ngModel)]="model" [ngbTypeahead]="homeSearch"
+        [resultTemplate]="rt" [inputFormatter]="formatter" type="text" class="form-control"
+        aria-label="Search cards or decks by name" name="search" placeholder="Search cards or decks by name" />
+    </div>
+
+    <div class="col-md-1">
+      <button type="submit" class="btn btn-primary btn-lg full-width"><i class="fas fa-search"></i></button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="randomCard || topCards" class="home-wrapper p-4 my-3 text-center">
+  <div class="row gx-5">
+    <div class="col-2"></div>
+    <div class="col-3" *ngIf="randomCard">
+      <h3>Random Card</h3>
+      <app-card-image [cardId]="randomCard.Id"></app-card-image>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-3" *ngIf="topCards">
+      <h3>Most Popular Cards</h3>
+      <ol class="list-group list-group-numbered">
+        <li *ngFor="let card of topCards" class="list-group-item list-group-item-dark text-start">
+          {{card.Name}}
+        </li>
+      </ol>
+    </div>
+    <div class="col-2"></div>
+  </div>
+</div> -->

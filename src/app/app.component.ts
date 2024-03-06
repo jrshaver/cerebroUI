@@ -1,13 +1,30 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {
+  ViewportScroller
+} from '@angular/common';
+import {
+  Component,
+  HostListener,
+  OnInit
+} from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  title = 'cerebroUI';
+export class AppComponent implements OnInit {
+
+  smallScreen: boolean = false;
+  pageYoffset = 0;
+  @HostListener('window:scroll', ['$event']) onScroll() {
+    this.pageYoffset = window.pageYOffset;
+  }
+
+  scrollToTop() {
+    this.scroll.scrollToPosition([0, 0]);
+  }
+
+  constructor(private scroll: ViewportScroller) {}
+
+  ngOnInit(): void {}
 }

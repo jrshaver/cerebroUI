@@ -1,0 +1,10 @@
+#register-container {
+  width: 45%;
+  min-width: 500px;
+  margin: auto;
+  text-align: center;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}
