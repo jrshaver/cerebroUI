@@ -18,4 +18,8 @@ export class SetService {
       value: set.Id
     }))));
   }
+
+  getSetById(setId: string): Observable < any[] > {
+    return this.http.get < any[] > (this.setsUrl + '?id=' + setId);
+  }
 }

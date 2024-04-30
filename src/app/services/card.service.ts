@@ -28,14 +28,14 @@ export class CardService {
   stopWordsRegex = new RegExp('\\b(' + stopWords + ')\\b', 'gi');
   relatableFields = ['Name', 'Rules', 'Subname', 'Traits'];
 
-  globalDefaultQuery = '&classification=player&origin=official&incomplete=false';
+  globalDefaultQuery = '&-classification:"encounter"&official:"true"&incomplete:"false"';
 
   getCards(query: string): Observable < card[] > {
     return this.http.get < card[] > (this.cardsUrl + query + this.globalDefaultQuery);
   }
 
   queryWithInput(query: string): Observable < card[] > {
-    return this.http.get < card[] > (this.queryUrl + 'input=' + encodeURIComponent(query + '&classification:"player"&official:"true"&incomplete:"false"'));
+    return this.http.get < card[] > (this.queryUrl + 'input=' + encodeURIComponent(query + this.globalDefaultQuery));
   }
 
   getAllCards(): Observable < card[] > {

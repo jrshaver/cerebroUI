@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import {
-  BehaviorSubject,
   catchError,
   debounceTime,
   distinctUntilChanged,
@@ -24,7 +23,7 @@ import {
   NgbTypeahead,
   NgbTypeaheadSelectItemEvent
 } from '@ng-bootstrap/ng-bootstrap';
-import * as _ from 'lodash';
+import { chain, groupBy, filter } from 'lodash';
 import { constants } from '../../../config/constants';
 import { SearchComponent } from '../../search/search.component';
 import { CardService } from '../../services/card.service';
@@ -76,9 +75,9 @@ export class DeckEditorComponent implements OnInit {
   deckForm!: UntypedFormGroup;
   deckId: string = '';
 
-  availableHeroes: card[] = [];
-  filteredHeroes!: Observable<card[]>;
-  private filteredHeroesSubject = new BehaviorSubject<card[]>([]);
+  // availableHeroes: card[] = [];
+  // filteredHeroes!: Observable<card[]>;
+  // private filteredHeroesSubject = new BehaviorSubject<card[]>([]);
 
   isLoading: boolean = true;
 
@@ -192,13 +191,13 @@ export class DeckEditorComponent implements OnInit {
 
   getDeckData(deckId: string): void {
     //Lookup deck, fetch all cards
-    this.deckService.getDeckById(deckId).subscribe((deck) => {
-      if (deck.authorId == this.tokenService.getToken()) {
+    this.deckService.getDeckById(deckId).subscribe((deck: any) => {
+      this.deck = deck[0];
+      if (this.deck.authorId == this.tokenService.getToken()) {
         this.isLoggedInUsersDeck = true;
       } else {
         this.deckForm.disable();
       }
-      this.deck = deck;
       this.deckForm.get('title')?.patchValue(deck.title, {
         onlySelf: true,
       });
@@ -208,32 +207,30 @@ export class DeckEditorComponent implements OnInit {
       this.deckForm.get('isPublic')?.patchValue(deck.isPublic, {
         onlySelf: true,
       });
-      // if (deck.heroSetId) {
-      //   this.cardService.getCardsFromSetId(deck.heroSetId).subscribe((response) => {
-      //     console.log(response);
-      //     let hero = response.filter((card) => {
-      //       return card.Type == 'Hero';
-      //     })[0];
-      //     this.deckForm.get('hero')?.patchValue(hero, {
-      //       onlySelf: true,
-      //     });
-      //   });
-      // }
+      if (deck.heroSetId) {
+        this.cardService.getCardsFromSetId(deck.heroSetId).subscribe((response) => {
+          console.log(response);
+          let hero = response.filter((card) => {
+            return card.Type == 'Hero';
+          })[0];
+          this.deckForm.get('hero')?.patchValue(hero, {
+            onlySelf: true,
+          });
+        });
+      }
       console.log(this.deck);
-      console.log(deck);
-      if (!deck.cards) {
+      if (!this.deck.cards) {
         deck.cards = [];
         this.isLoading = false;
         return;
       }
-      let cardIds = deck.cards.map(({ id }) => id);
+      let cardIds = this.deck.cards.map(({ id }) => id);
       this.cardService.getCardsByIds(cardIds).subscribe((response) => {
         console.log(response);
-        console.log(deck.cards);
         this.deck.cards = response.map((cardDetailed) => (
           this.addCard(cardDetailed),
-          {...deck.cards.find(
-            (cardSimple) => cardSimple.Id == cardDetailed.Id && cardSimple
+          {...this.deck.cards.find(
+            (cardSimple: { Id: string; }) => cardSimple.Id == cardDetailed.Id && cardSimple
           ),
           ...cardDetailed,
         }));
@@ -244,7 +241,6 @@ export class DeckEditorComponent implements OnInit {
     });
   }
 
-  //Deck functions
   copyDeck(deck: deck): void {
     this.deckService.copyDeck(deck);
   }
@@ -274,9 +270,12 @@ export class DeckEditorComponent implements OnInit {
     let deckCopy = JSON.parse(JSON.stringify(deck));
 
     deckCopy.cards = deck.cards.flatMap((card) => {
-      console.log(card);
-      console.log(card.quantity);
+      // console.log(card);
+      // console.log(card.quantity);
       if (card.Id && card.quantity) {
+        if (card.type == 'Hero') {
+          deckCopy.heroSetId = card.SetId;
+        }
         return {
           id: card.Id,
           quantity: card.quantity,
@@ -313,21 +312,17 @@ export class DeckEditorComponent implements OnInit {
     })
   }
 
-  // setShowCard(cardId?: string): void {
-  //   this.showCard = cardId || '';
+  // filterHeroes(value: string) {
+  //   const filterValue = value.toLowerCase();
+  //   return this.availableHeroes.filter((option) => {
+  //     let nameMatch = option.Name.toLowerCase().includes(filterValue);
+  //     let subNameMatch = false;
+  //     if (option.Subname) {
+  //       subNameMatch = option.Subname.toLowerCase().includes(filterValue);
+  //     }
+  //     return nameMatch || subNameMatch;
+  //   });
   // }
-
-  filterHeroes(value: string) {
-    const filterValue = value.toLowerCase();
-    return this.availableHeroes.filter((option) => {
-      let nameMatch = option.Name.toLowerCase().includes(filterValue);
-      let subNameMatch = false;
-      if (option.Subname) {
-        subNameMatch = option.Subname.toLowerCase().includes(filterValue);
-      }
-      return nameMatch || subNameMatch;
-    });
-  }
 
   cardDisplayFn(card: card): string {
     let displayValue = '';
@@ -406,12 +401,14 @@ export class DeckEditorComponent implements OnInit {
       return;
     }
 
-    let groupedCards: any = _.chain(this.deck.cards)
+    let groupedCards: any = chain(this.deck.cards)
       .groupBy('Type')
       .forEach((group: any) => {
         group.numberOfCards = group.reduce((total: number, item: card) => total + (item.quantity || 0), 0);
       })
       .value();
+      
+    console.log(groupedCards);
 
     this.groupedCards = Object.assign(groupedCards);
   }

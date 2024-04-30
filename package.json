@@ -1,5 +1,5 @@
 {
-  "name": "cerebro-ui",
+  "name": "cerebroui",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -25,18 +25,16 @@
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.3",
     "crypto-js": "^4.2.0",
-    "firebase": "^10.8.1",
-    "firebaseui": "^6.1.0",
-    "firebaseui-angular": "^6.2.1",
     "fuse.js": "^7.0.0",
+    "jquery": "^3.7.1",
     "lodash": "^4.17.21",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.2.2",
-    "@angular/cli": "^17.2.2",
+    "@angular-devkit/build-angular": "^17.3.2",
+    "@angular/cli": "^17.3.2",
     "@angular/compiler-cli": "^17.2.0",
     "@angular/localize": "^17.2.0",
     "@types/crypto-js": "^4.2.2",

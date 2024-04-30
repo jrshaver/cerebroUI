@@ -5,6 +5,7 @@ import { DeckImportComponent } from '../deck-import/deck-import.component';
 import { DeckService } from '../../services/deck.service';
 import { ToastService } from '../../services/toast.service';
 import { TokenService } from '../../services/token.service';
+import { SetService } from '../../services/set.service';
 
 export interface deck {
   _id?: string,
@@ -15,6 +16,7 @@ export interface deck {
   isPublic: boolean,
   title: string,
   heroSetId: string,
+  heroId?: string,
   isOfficial: boolean,
   aspects: string[],
   created?: string,
@@ -66,6 +68,7 @@ export class DecklistComponent implements OnInit {
 
   constructor(
     private deckService: DeckService,
+    private setService: SetService,
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
@@ -97,7 +100,7 @@ export class DecklistComponent implements OnInit {
 
   newDeck(): void {
     let maxDecks = 100;
-    if (this.decks.length >= maxDecks) {
+    if (this.decks && this.decks.length >= maxDecks) {
       this.toastService.show('You are only allowed to have ' + maxDecks + ' decks. Please make room if you\'d like to create another one');
       return;
     }
@@ -146,10 +149,13 @@ export class DecklistComponent implements OnInit {
 
   getDecks(): void {
     this.route.paramMap.subscribe(paramMap => {
+      console.log(paramMap);
       let userId = paramMap.get('userId');
+      console.log(userId);
       if (userId) {
         this.pageTitle = 'My Decks (0)';
         this.deckService.getUserDecks(userId).subscribe((decks) => {
+          console.log(decks);
           this.setDecks(decks);
           this.pageTitle = 'My Decks (' + decks.length + ')';
         });
@@ -162,8 +168,20 @@ export class DecklistComponent implements OnInit {
   setDecks(decks: deck[]): void {
     this.decks = decks;
     this.decks = decks.map((deck) => {
+      console.log(deck);
+      //Get Hero ID from heroSetId
+      if (deck.heroSetId) {
+        this.setService.getSetById(deck.heroSetId).subscribe((set) => {
+          console.log(set);
+        })
+      }
       //Convert epoch time
-      deck.updated = new Date(Number(deck.updated)).toLocaleDateString();
+      if (deck.updated) {
+        deck.updated = new Date(Number(deck.updated)).toLocaleDateString();
+      }
+      //Ensure Aspects array exists
+      // deck.aspects = deck.aspects ? deck.aspects : [];
+      console.log(deck);
       return deck;
     });
   }

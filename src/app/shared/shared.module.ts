@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardComponent } from './card/card.component';
@@ -18,7 +18,8 @@ import { ToastComponent } from './toast/toast.component';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgOptimizedImage
   ],
   exports: [
     CardComponent,

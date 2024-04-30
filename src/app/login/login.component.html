@@ -1,33 +1,27 @@
-<div class="modal-header">
-  <h5 class="modal-title">Login</h5>
-  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
-</div>
-<div class="modal-body">
-
-  <form [formGroup]="loginForm" class="needs-validation" novalidate>
+<form [formGroup]="loginForm" class="needs-validation" novalidate>
+  <div class="modal-body">
 
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
-      <input formControlName="emailAddress" class="form-control" [ngClass]="hasError && emailError ? 'is-invalid' : ''" id="email" placeholder="name@example.com">
+      <input formControlName="emailAddress" class="form-control" [ngClass]="hasError && emailError ? 'is-invalid' : ''"
+        id="email" placeholder="name@example.com">
       <div class="invalid-feedback">
         {{emailError}}
       </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input formControlName="passwordHash" type="password" class="form-control" [ngClass]="hasError && passwordError ? 'is-invalid' : ''" id="password">
+      <input formControlName="passwordHash" type="password" class="form-control"
+        [ngClass]="hasError && passwordError ? 'is-invalid' : ''" id="password">
       <div class="invalid-feedback">
         {{passwordError}}
       </div>
     </div>
 
-  </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit" (click)="login()">Sign In</button>
+    <!-- <button class="btn btn-secondary" type="button" (click)="forgotPassword()" [disabled]="loginForm.controls['emailAddress'].pristine || loginForm.controls['emailAddress'].status != 'VALID'">Forgot Password?</button> -->
+  </div>
 
-  <firebase-ui (signInSuccessWithAuthResult)="successCallback($event)" (signInFailure)="errorCallback($event)"
-  (uiShown)="uiShownCallback()"></firebase-ui>
-  
-</div>
-<div class="modal-footer">
-  <button class="btn btn-primary" type="submit" (click)="login()">Login</button>
-  <button class="btn btn-secondary" type="button" (click)="forgotPassword()" [disabled]="loginForm.controls['emailAddress'].pristine || loginForm.controls['emailAddress'].status != 'VALID'">Forgot Password?</button>
-</div>
+</form>

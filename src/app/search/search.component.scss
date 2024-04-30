@@ -1,13 +1,8 @@
-.submit-search-btn {
-  padding-left: 8px;
-  float: right;
-}
-
-#filterContainer .col {
+.row > div {
   position: relative;
-  min-width: 300px;
+  min-width: 11rem;
   margin-bottom: 1rem;
-  &.full-width {
-    flex: auto;
+  &.col-sm-1 {
+    min-width: 7.4rem;
   }
 }

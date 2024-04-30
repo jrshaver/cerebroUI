@@ -7,7 +7,6 @@ import {
 import {
   constants
 } from '../../../config/constants'
-import { fromEvent  } from 'rxjs';
 
 @Component({
   selector: 'app-card-image',

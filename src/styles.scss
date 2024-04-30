@@ -92,7 +92,10 @@ body {
 }
 
 .modal-dialog.modal-md {
-  max-width: 375px !important;
+  max-width: fit-content !important;
+  .modal-body {
+    padding: 0 2rem;
+  }
 }
 
 .filter-clear-button {
@@ -129,10 +132,8 @@ body {
   max-height: 350px;
 }
 
-/* Importing Bootstrap SCSS file. */
-// @import '~bootstrap/scss/custom_variables';
-// @import '~bootstrap/scss/bootstrap';
-// @import '~bootstrap/scss/custom_variables';
-
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+//Overrides
+.modal {
+  --bs-modal-header-border-width: 0!important;
+  --bs-modal-footer-border-width: 0!important;
+}

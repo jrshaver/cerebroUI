@@ -12,7 +12,8 @@ export const environment = {
     messagingSenderId: '945330465467',
     measurementId: 'G-QX60D13MS9',
   },
-  production: false
+  production: false,
+  useEmulators: true
 };
 
 /*

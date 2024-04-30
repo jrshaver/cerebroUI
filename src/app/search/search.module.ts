@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SearchRoutingModule } from './search-routing.module';
@@ -9,9 +8,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { SharedModule } from '../shared/shared.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { NgbdSortableHeader } from './search-results/search-results.component';
 
 @NgModule({

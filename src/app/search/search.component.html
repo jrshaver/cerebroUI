@@ -1,9 +1,13 @@
+<div *ngIf="inModal" class="modal-header">
+  <h4 class="modal-title">Card Search</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.close('Cross click')"></button>
+</div>
 <div class="bg-white p-4">
   <form class="full-width" (ngSubmit)="search()" [formGroup]="form">
 
-    <div id="filterContainer" class="row">
+    <div class="row justify-content-md-center">
       <!--name filter-->
-      <div class="col full-width">
+      <div class="col-sm-3 col-xs-12">
         <input type="text" formControlName="name" name="cardName" class="form-control" placeholder="Card Name" />
         <button *ngIf="form.controls['name'].value" aria-label="Clear" (click)="form.controls['name'].setValue('')"
           class="btn btn-link filter-clear-button" type="button">
@@ -12,36 +16,28 @@
       </div>
 
       <!--text filter-->
-      <div class="col full-width">
+      <div class="col-sm-3 col-xs-12">
         <input type="text" formControlName="text" name="cardText" class="form-control" placeholder="Card Text" />
         <button *ngIf="form.controls['text'].value" aria-label="Clear" (click)="form.controls['text'].setValue('')"
           class="btn btn-link filter-clear-button" type="button">
           <i class="fas fa-times"></i>
         </button>
       </div>
+    </div>
+    <div class="row justify-content-md-center">
 
-      <!--classification filter-->
-      <div class="col">
-        <select formControlName="classification" name="classification" class="form-select" aria-label="Classification">
-          <option value="" selected disabled hidden>Classification</option>
-          <option *ngFor="let classification of CLASSIFICATIONS" [value]="classification">
-            {{classification}}
-          </option>
-        </select>
-      </div>
-
-      <!--cost filter-->
-      <div class="col">
-        <select formControlName="cost" name="cost" class="form-select" aria-label="Cost">
-          <option value="" selected disabled hidden>Cost</option>
-          <option *ngFor="let cost of COSTS" [value]="[cost == 'None' ? 'null' : cost]">
-            {{cost}}
+      <!--aspect filter-->
+      <div class="col-sm-1 col-xs-12">
+        <select formControlName="classification" name="aspect" class="form-select" aria-label="Aspect">
+          <option value="" selected disabled hidden>Aspect</option>
+          <option *ngFor="let aspect of ASPECTS" [value]="aspect">
+            {{aspect}}
           </option>
         </select>
       </div>
 
       <!--resource filter-->
-      <div class="col">
+      <div class="col-sm-2 col-xs-12">
         <ng-template #rt let-r="result" let-t="term">
           <app-resource-icon [resource]="r.name.toLowerCase()"></app-resource-icon>
           <ngb-highlight [result]="r.name || r" [term]="t" class="ms-2"></ngb-highlight>
@@ -57,8 +53,18 @@
         </button>
       </div>
 
+      <!--cost filter-->
+      <div class="col-sm-1 col-xs-12">
+        <select formControlName="cost" name="cost" class="form-select" aria-label="Cost">
+          <option value="" selected disabled hidden>Cost</option>
+          <option *ngFor="let cost of COSTS" [value]="[cost == 'None' ? 'null' : cost]">
+            {{cost}}
+          </option>
+        </select>
+      </div>
+
       <!--trait filter-->
-      <div class="col">
+      <div class="col-sm-2 col-xs-12">
         <input id="typeahead-focus" type="text" class="form-control" formControlName="traits"
           [placeholder]="traitPlaceholder" [ngbTypeahead]="searchTraits"
           (focus)="focus$[1].next($any($event).target.value); traitPlaceholder = 'Search Traits'"
@@ -69,9 +75,11 @@
           <i class="fas fa-times"></i>
         </button>
       </div>
+    </div>
+    <div class="row justify-content-md-center">
 
       <!--type filter-->
-      <div class="col">
+      <div class="col-sm-2 col-xs-12">
         <input id="typeahead-focus" type="text" class="form-control" formControlName="type"
           [placeholder]="typePlaceholder" [ngbTypeahead]="searchTypes"
           (focus)="focus$[2].next($any($event).target.value); typePlaceholder = 'Search Types'"
@@ -84,7 +92,7 @@
       </div>
 
       <!--pack filter-->
-      <div class="col">
+      <div class="col-sm-2 col-xs-12">
         <ng-template #pt let-r="result" let-t="term">
           <ngb-highlight [result]="r.name || r" [term]="t" class="ms-2"></ngb-highlight>
         </ng-template>
@@ -100,7 +108,7 @@
       </div>
 
       <!--set filter-->
-      <div class="col">
+      <div class="col-sm-2 col-xs-12">
         <ng-template #st let-r="result" let-t="term">
           <ngb-highlight [result]="r.name || r" [term]="t" class="ms-2"></ngb-highlight>
         </ng-template>
@@ -114,31 +122,31 @@
           <i class="fas fa-times"></i>
         </button>
       </div>
+    </div>
+    <div class="row justify-content-md-center">
 
       <!--origin filter-->
-      <div class="col">
+      <!-- <div class="col-1">
         <select formControlName="origin" name="origin" class="form-select" aria-label="Origin">
           <option value="" selected disabled hidden>Origin</option>
           <option *ngFor="let origin of ORIGINS">
             {{origin}}
           </option>
         </select>
-      </div>
+      </div> -->
 
-    </div>
-
-    <div class="row">
-      <div class="btn-container col">
-        <button class="btn btn-primary submit-search-btn" type="submit">
+      <!--buttons-->
+      <div class="col-sm-3 col-xs-12 d-grid gap-2">
+        <button class="btn btn-primary" type="submit">
           <i class="fas fa-search"></i>
           Search
         </button>
-        <button *ngIf="form.dirty" (click)="clearForm()" class="btn btn-secondary submit-search-btn mx-2" type="button">
+      </div>
+      <div class="col-sm-3 col-xs-12 d-grid gap-2">
+        <button (click)="clearForm()" class="btn btn-secondary" type="button">
           <i class="fas fa-times"></i>
-          Clear Form
+          Clear
         </button>
-
-        <div *ngIf="error" class="inline-block error">{{error}}</div>
       </div>
     </div>
 
@@ -153,6 +161,6 @@
 
 </div>
 
-  <div class="modal-footer" *ngIf="inModal && cards.length > 0">
-    <button type="button" class="btn btn-primary col" (click)="addSelectedCards(cards)">Add selected to deck</button>
-  </div>
+<div class="modal-footer" *ngIf="inModal && cards.length > 0">
+  <button type="button" class="btn btn-primary col" (click)="addSelectedCards(cards)">Add selected to deck</button>
+</div>

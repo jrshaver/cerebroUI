@@ -23,8 +23,6 @@ import CryptoJS from 'crypto-js';
 import {
   ToastService
 } from './toast.service';
-import firebase from 'firebase/compat/app';
-import * as firebaseui from 'firebaseui'
 
 @Injectable({
   providedIn: 'root'
@@ -68,10 +66,7 @@ export class AuthService {
     return this.http.post < any > (this.userUrl + '/login', loginData, {
       headers: this.HTTP_HEADERS
     }).pipe(tap(response => {
-        this.toastService.show('You\'re logged in!', {
-          title: 'Welcome',
-          classname: 'bg-success text-light'
-        })
+        this.showLoggedInMessage();
         this.isUserLoggedIn = true;
         this.tokenService.saveToken(response._id);
         return of(this.isUserLoggedIn)
@@ -80,21 +75,36 @@ export class AuthService {
     );
   }
 
-  logout(): Promise<void> {
+  logout(): void {
     this.tokenService.removeToken();
-    return firebase.auth().signOut();
+    this.isUserLoggedIn = false;
+    this.toastService.show('You\'re signed out!', {
+      title: 'Goodbye',
+      classname: 'bg-success text-light'
+    });
   }
 
   register(registerObject: any) {
     let userUrl = this.userUrl;
     let userData = JSON.parse(JSON.stringify(registerObject))
     userData.passwordHash = userData.passwordHash ? CryptoJS.SHA256(userData.passwordHash).toString() : '';
-    return this.http.post(userUrl, userData, {
+    return this.http.post < any > (userUrl, userData, {
       headers: this.HTTP_HEADERS
-    }).pipe(
-      tap(_ => AuthService.log('register')),
+    }).pipe(tap((response) => {
+        this.showLoggedInMessage();
+        this.isUserLoggedIn = true;
+        this.tokenService.saveToken(response._id);
+        AuthService.log('register');
+      }),
       catchError(AuthService.handleError)
     );
+  }
+
+  showLoggedInMessage(): void {
+    this.toastService.show('You\'re signed in!', {
+      title: 'Welcome',
+      classname: 'bg-success text-light'
+    });
   }
 
   updateUser(updateObject: any) {
@@ -115,14 +125,6 @@ export class AuthService {
       tap(_ => AuthService.log('get')),
       catchError(AuthService.handleError)
     );
-  }
-
-  async signInWithProvider(provider: firebase.auth.AuthProvider): Promise<firebase.auth.UserCredential> {
-    return firebase.auth().signInWithPopup(provider);
-  }
-
-  getCurrentUser(): firebase.User | null {
-    return firebase.auth().currentUser;
   }
 
 }

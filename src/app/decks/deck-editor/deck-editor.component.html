@@ -23,7 +23,7 @@
         <textarea class="form-control border-0 bg-transparent" id="description" name="description" #autoResize
           formControlName="description" readonly></textarea>
       </ng-container>
-      <div><i class="fa fa-circle-check"></i> Valid</div>
+      <!-- <div><i class="fa fa-circle-check"></i> Valid</div> -->
     </div>
 
     <div class="deck">
@@ -38,8 +38,8 @@
         <ng-template #rt let-r="result" let-t="term">
           <ngb-highlight [result]="r.Name" [term]="t"></ngb-highlight>
           <span *ngIf="r.Subname"> ({{r.Subname}})</span>
-          <span *ngIf="r.Classification"><br />{{r.Classification}}</span>
-          <span *ngIf="r.Type"><small> {{r.Type}}</small></span>
+          <span *ngIf="r.Classification"><br /><small><i>{{r.Classification}}</i></small></span>
+          <span *ngIf="r.Type"><small><i> {{r.Type}}</i></small></span>
         </ng-template>
 
         <div *ngIf="!deck.cards || deck.cards.length == 0" class="card noCardsMessage">

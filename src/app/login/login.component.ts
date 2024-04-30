@@ -12,16 +12,9 @@ import {
   NgbActiveModal
 } from '@ng-bootstrap/ng-bootstrap';
 import {
-  getAuth,
-  sendPasswordResetEmail
-} from 'firebase/auth';
-import firebase from 'firebase/compat/app';
-import {
   AuthService
 } from '../services/auth.service';
-import { FirebaseUISignInFailure, FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-login',
@@ -39,22 +32,9 @@ export class LoginComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private authService: AuthService,
-    private afAuth: AngularFireAuth, private router: Router) {}
+    private router: Router) {}
 
   ngOnInit(): void {};
-
-  successCallback(data: FirebaseUISignInSuccessWithAuthResult) {
-    console.log('successCallback', data);
-    this.router.navigate(['/']);
-  }
-
-  errorCallback(data: FirebaseUISignInFailure) {
-    console.warn('errorCallback', data);
-  }
-
-  uiShownCallback() {
-    console.log('UI shown');
-  }
 
   loginForm = new UntypedFormGroup({
     emailAddress: new UntypedFormControl('', [Validators.required]),
@@ -101,20 +81,21 @@ export class LoginComponent implements OnInit {
     this.loginForm.patchValue({ passwordHash: '' });
   }
 
-  forgotPassword(): void {
-    let email = this.loginForm.value.emailAddress;
-    let emailConfirmation = confirm('Send password reset information to ' + email + '?');
-    if (emailConfirmation) {
-      const auth = getAuth();
-      sendPasswordResetEmail(auth, email)
-        .then(() => {
-          // Password reset email sent!
-          alert("Password reset email sent to " + email);
-        })
-        .catch((error) => {
-          Bugsnag.notify(error);
-        });
-    }
-  }
+  // forgotPassword(): void {
+  //   let email = this.loginForm.value.emailAddress;
+  //   let emailConfirmation = confirm('Send password reset information to ' + email + '?');
+  //   if (emailConfirmation) {
+  //     const auth = getAuth();
+  //     sendPasswordResetEmail(auth, email)
+  //       .then(() => {
+  //         // Password reset email sent!
+  //         alert("Password reset email sent to " + email);
+  //       })
+  //       .catch((error: any) => {
+  //         Bugsnag.notify(error);
+  //         Bugsnag.
+  //       });
+  //   }
+  // }
 
 }

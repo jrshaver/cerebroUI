@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let deck of decks let i=index" (click)="editDeck(deck)" class="{{deck.aspects[0].toLowerCase()}}">
+      <tr *ngFor="let deck of decks let i=index" (click)="editDeck(deck)" class="{{deck.aspects? deck.aspects[0].toLowerCase(): ''}}">
         <td *ngFor="let column of displayedColumns">{{getDisplayValue(deck, column)}}</td>
         <ng-container *ngIf="showActions">
           <td *ngFor="let action of deckActions" (click)="doAction(action.name, deck); $event.stopPropagation()"

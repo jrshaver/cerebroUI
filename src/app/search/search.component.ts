@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnInit,
   Output,
@@ -50,13 +51,14 @@ import {
   UtilService
 } from '../services/util.service';
 import {
+  NgbActiveModal,
   NgbTypeahead
 } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  providers: [CardService, PackService, SetService, UtilService],
+  providers: [CardService, PackService, SetService, UtilService, NgbActiveModal],
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
@@ -93,7 +95,8 @@ export class SearchComponent implements OnInit {
   filteredTypes!: Observable < string[] > ;
 
   //Static filters
-  CLASSIFICATIONS: string[] = constants.filters.CLASSIFICATIONS.sort();
+  // CLASSIFICATIONS: string[] = constants.filters.CLASSIFICATIONS.sort();
+  ASPECTS: string[] = constants.filters.ASPECTS.sort();
   COSTS: string[] = constants.filters.COSTS;
   RESOURCES: object[] = constants.filters.RESOURCES;
   TRAITS: string[] = constants.filters.TRAITS.sort();
@@ -104,8 +107,8 @@ export class SearchComponent implements OnInit {
     private cardSevice: CardService,
     private packService: PackService,
     private setService: SetService,
-    private utilService: UtilService) {
-    }
+    private utilService: UtilService,
+    public activeModal: NgbActiveModal) {}
 
   ngOnInit(): void {
     this.filteredPacks = this.filteredPackOptionsSubject.asObservable();
@@ -167,7 +170,6 @@ export class SearchComponent implements OnInit {
     this.error = '';
     this.isLoading = true;
     this.cards = [];
-    console.log(this.form.value);
     let entries = Object.entries(this.form.value);
     if (!entries.some((entry) => entry[1])) {
       this.error = 'Please include at least one search parameter';

@@ -11,6 +11,7 @@ import {
 import {
   TokenService
 } from '../services/token.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -20,13 +21,14 @@ import {
 export class HeaderComponent implements OnInit {
 
   constructor(
+    private authService: AuthService,
     private tokenService: TokenService,
     private modalService: NgbModal
     ) {
       tokenService.tokenEvent.subscribe(userId => { console.log(userId); this.loggedInUser = userId});
     }
 
-  title = 'cerebroUI'; //se'Liaison for the Assortment and Notation of Cerebro Entries';
+  title = 'cerebroUI'; //Liaison for the Assortment and Notation of Cerebro Entries';
 
   loggedInUser!: string;
 
@@ -38,12 +40,12 @@ export class HeaderComponent implements OnInit {
   }
 
   openLoginDialog(): void {
-    const modalRef = this.modalService.open(LoginComponent);
+    const modalRef = this.modalService.open(LoginComponent, { size: 'sm' });
   }
 
   logoff(): void {
-    this.tokenService.removeToken();
-    window.location.reload();
+    this.authService.logout();
+    window.location.assign('/');
   }
 
 }
