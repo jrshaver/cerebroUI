@@ -9,7 +9,6 @@ import {
   distinctUntilChanged,
   Observable,
   of,
-  OperatorFunction,
   Subject,
   switchMap,
 } from 'rxjs';
@@ -70,14 +69,8 @@ export class DeckEditorComponent implements OnInit {
 
   deckView: string = 'Text';
 
-  heroSearch!: OperatorFunction<string, readonly object[]>;
-
   deckForm!: UntypedFormGroup;
   deckId: string = '';
-
-  // availableHeroes: card[] = [];
-  // filteredHeroes!: Observable<card[]>;
-  // private filteredHeroesSubject = new BehaviorSubject<card[]>([]);
 
   isLoading: boolean = true;
 
@@ -127,7 +120,6 @@ export class DeckEditorComponent implements OnInit {
 
     this.deckForm = this.formBuilder.group({
       title: ['', Validators.required],
-      hero: ['', Validators.required],
       cardCount: '',
       aspects: [[], Validators.required],
       description: '',
@@ -207,17 +199,6 @@ export class DeckEditorComponent implements OnInit {
       this.deckForm.get('isPublic')?.patchValue(deck.isPublic, {
         onlySelf: true,
       });
-      if (deck.heroSetId) {
-        this.cardService.getCardsFromSetId(deck.heroSetId).subscribe((response) => {
-          console.log(response);
-          let hero = response.filter((card) => {
-            return card.Type == 'Hero';
-          })[0];
-          this.deckForm.get('hero')?.patchValue(hero, {
-            onlySelf: true,
-          });
-        });
-      }
       console.log(this.deck);
       if (!this.deck.cards) {
         deck.cards = [];
@@ -311,18 +292,6 @@ export class DeckEditorComponent implements OnInit {
       cardsToAdd.forEach((card:card) => this.cardSelected(card));
     })
   }
-
-  // filterHeroes(value: string) {
-  //   const filterValue = value.toLowerCase();
-  //   return this.availableHeroes.filter((option) => {
-  //     let nameMatch = option.Name.toLowerCase().includes(filterValue);
-  //     let subNameMatch = false;
-  //     if (option.Subname) {
-  //       subNameMatch = option.Subname.toLowerCase().includes(filterValue);
-  //     }
-  //     return nameMatch || subNameMatch;
-  //   });
-  // }
 
   cardDisplayFn(card: card): string {
     let displayValue = '';
